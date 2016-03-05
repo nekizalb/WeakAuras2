@@ -46,19 +46,7 @@ local function modify(parent, region, data)
     if not text:GetFont() then -- Font invalid, set the font but keep the setting
         text:SetFont("Fonts\\FRIZQT__.TTF", data.fontSize <= 35 and data.fontSize or 35, data.outline and "OUTLINE" or nil);
     end
-    if text:GetFont() then
-        text:SetText(data.displayText);
-    end
-    text.displayText = data.displayText;
     text:SetJustifyH(data.justify);
-
-    text:ClearAllPoints();
-    text:SetPoint("CENTER", UIParent, "CENTER");
-    
-    data.width = text:GetWidth();
-    data.height = text:GetHeight();
-    region:SetWidth(data.width);
-    region:SetHeight(data.height);
 
     text:SetTextHeight(data.fontSize);
 
@@ -75,7 +63,7 @@ local function modify(parent, region, data)
         if(textStr ~= text.displayText) then
             if text:GetFont() then text:SetText(textStr); end
         end
-        if(#textStr ~= #text.displayText) then
+        if(not text.displayText or #textStr ~= #text.displayText) then
             data.width = text:GetWidth();
             data.height = text:GetHeight();
             region:SetWidth(data.width);
@@ -106,6 +94,7 @@ local function modify(parent, region, data)
                 UpdateText();
             end
         end
+        region.UpdateCustomText();
         if(data.customTextUpdate == "update") then
             WeakAuras.RegisterCustomTextUpdates(region);
         else
