@@ -63,7 +63,7 @@ local function modify(parent, region, data)
         if(textStr ~= text.displayText) then
             if text:GetFont() then text:SetText(textStr); end
         end
-        if(not text.displayText or #textStr ~= #text.displayText) then
+        if(not text.displayText or #textStr ~= #text.displayText or not text.displayFont or  text.displayFont ~= data.fontSize) then
             data.width = text:GetWidth();
             data.height = text:GetHeight();
             region:SetWidth(data.width);
@@ -76,6 +76,7 @@ local function modify(parent, region, data)
             end
         end
         text.displayText = textStr;
+	    text.displayFont = data.fontSize;
     end
 
     local customTextFunc = nil
@@ -227,7 +228,6 @@ local function modify(parent, region, data)
         region.values.name = name or data.id;
         UpdateText();
     end
-
     UpdateText();
 end
 
